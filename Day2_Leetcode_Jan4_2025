@@ -1,0 +1,106 @@
+class Solution {
+    public int countPalindromicSubsequence(String s) {
+
+// METHOD 1 BRUTE FORCE WORST TIME AND SPACE
+         HashSet<String> ans = new HashSet<>();
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (! map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i),1);
+            } else {
+                map.put(s.charAt(i), map.get(s.charAt(i))+1);
+            }
+        }
+        int size = 0;
+        while (size < map.size()) {
+        int index = 0;
+       for (int i = 0; i < s.length(); i++) {
+        if (map.get(s.charAt(i)) > 1) {
+            index = i;
+            break;
+        }
+       }
+       int right = 0;
+       char ch = s.charAt(index);
+       for (int i = s.length()-1; i > index; i--) {
+         if (s.charAt(i) == ch) {
+            right = i;
+            break;
+         }
+       }
+       HashSet<String> set = new HashSet<>();
+       for (int i = index+1; i < right; i++) {
+        set.add(Character.toString(s.charAt(i)));
+       }
+       ArrayList<String> list = new ArrayList<>(set);
+       for (int i = 0; i < set.size(); i++) {
+        String str = Character.toString(s.charAt(index));
+        str += list.get(i);
+        str += Character.toString(s.charAt(index));
+        ans.add(str);
+       }
+       map.put(s.charAt(index), 1);
+       size++;
+    }
+       return ans.size();
+
+
+// METHOD 2 TIME = O(n) SPACE = O(n)    MAX SPACE = 26
+   HashSet<Character> set = new HashSet<>();
+    for (int i = 0; i < s.length(); i++) {
+        set.add(s.charAt(i));
+    }
+    int ans = 0;
+    for (var ch: set) {
+        int left = -1;
+        int right = -1;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ch) {
+                if (left == -1) {
+                    left = i;
+                }
+                right = i;
+            }
+        }
+        HashSet<Character> count = new HashSet<>();
+        for (int i = left+1; i < right; i++) {
+            count.add(s.charAt(i));
+        }
+        ans += count.size();
+    }
+return ans;
+
+// METHOD 3 USING CONSTANT SPACE O(26) and  O(n) TIME
+
+int[] first = new int[26];
+        int[] last = new int[26];
+        Arrays.fill(first, -1);
+        Arrays.fill(last, -1);
+        
+        for (int i = 0; i < s.length(); i++) {
+            int curr = s.charAt(i) - 'a';
+            if (first[curr] == - 1) {
+                first[curr] = i;
+            }
+            
+            last[curr] = i;
+        }
+        
+        int ans = 0;
+        for (int i = 0; i < 26; i++) {
+            if (first[i] == -1) {
+                continue;
+            }
+            
+            Set<Character> st = new HashSet();
+            for (int middle = first[i] + 1; middle < last[i]; middle++) {
+                st.add(s.charAt(middle));
+            }
+            
+            ans += st.size();
+        }
+        
+        return ans;
+
+    }
+}
