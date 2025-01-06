@@ -1,0 +1,29 @@
+class Solution {
+        public String shiftingLetters(String s, int[][] shifts) {
+            int prefix[] = new int[s.length()];
+            for (int j = 0; j < shifts.length; j++) {
+                int l = shifts[j][0];
+                int r = shifts[j][1];
+                int dir = shifts[j][2];
+                if (dir == 0) {
+                    for (int i = l; i <= r; i++) {
+                        prefix[i]--;
+                    }
+                } else {
+                    for (int i = l; i <= r; i++) {
+                        prefix[i] ++;
+                    }
+                }
+            }
+           StringBuilder sb = new StringBuilder("");
+            for (int i = 0; i < s.length(); i++) {
+                int index = (int)(s.charAt(i)-'a')+prefix[i];
+                index %= 26;
+                if (index < 0) {
+                    index = 26+index;
+                }
+               sb.append(Character.toString((char)(index+97)));
+            }
+            return sb.toString();
+        }
+    }
