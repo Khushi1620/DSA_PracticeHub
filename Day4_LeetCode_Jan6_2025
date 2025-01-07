@@ -1,0 +1,29 @@
+class Solution {
+    public int[] minOperations(String boxes) {
+        int n = boxes.length();
+        int arr[] = new int[n];
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (boxes.charAt(i) == '1') {
+                count++;
+            }
+        }
+        int index[] = new int[count];
+        int j = 0;
+        for (int i = 0; i < n; i++) {
+            if (boxes.charAt(i) == '1') {
+               index[j] = i;
+               j++;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            int value = 0;
+            for (int k = 0; k < index.length; k++) {
+                value += Math.abs(index[k]-i);
+            }
+            arr[i] = value;
+            value = 0;
+        }
+        return arr;
+    }
+}
