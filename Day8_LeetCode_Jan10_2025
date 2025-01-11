@@ -1,0 +1,38 @@
+class Solution {
+     private boolean subset(int[] hash, int[] h) {
+        for (int i = 0; i < 26; i++) {
+            if (h[i] > hash[i]) { // If any character's required frequency is not met, return false.
+                return false;
+            }
+        }
+        return true; // All frequencies are satisfied.
+    }
+    public List<String> wordSubsets(String[] words1, String[] words2) {
+        List<String> ans = new LinkedList<>();
+         int[] h = new int[26]; // Array to store the maximum frequency of each character.
+        for (String s : words2) {
+            int[] hash = new int[26]; // Frequency array for the current word in words2.
+            for (char ch : s.toCharArray()) {
+                hash[ch - 'a']++; // Increment the count for the character.
+            }
+
+            // Update the maximum frequency for each character across all words in words2.
+            for (int i = 0; i < 26; i++) {
+                h[i] = Math.max(h[i], hash[i]);
+            }
+        }
+        for (String s : words1) {
+            int[] hash = new int[26]; // Frequency array for the current word in words1.
+            for (char ch : s.toCharArray()) {
+                hash[ch - 'a']++; // Increment the count for the character.
+            }
+
+            // If the current word is a universal word, add it to the result list.
+            if (subset(hash, h)) {
+                ans.add(s);
+            }
+        }
+
+        return ans; // Return the list of universal words.
+    }
+    }
