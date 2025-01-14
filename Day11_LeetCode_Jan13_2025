@@ -1,0 +1,21 @@
+class Solution {
+    public int minimumLength(String s) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            if (! map.containsKey(s.charAt(i))) {
+                map.put(s.charAt(i), 1);
+            } else {
+                map.put(s.charAt(i), map.get(s.charAt(i))+1);
+            }
+        }
+        int count = 0;
+        for (var el: map.values()) {
+                if (el%2 == 0) {
+                    count += 2;
+                } else {
+                    count += 1;
+                }
+        }
+        return count;
+    }
+}
