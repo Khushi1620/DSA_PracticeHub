@@ -1,0 +1,58 @@
+class Solution {
+    public int[] findThePrefixCommonArray(int[] A, int[] B) {
+        // int n = A.length;
+        // int[] ans = new int[n];
+        // HashMap<Integer, Integer> map = new HashMap<>();
+        // for (int i = 0; i < n; i++) {
+        //     if (! map.containsKey(A[i])) {
+        //         map.put(A[i], 1);
+        //     } else {
+        //         map.put(A[i], map.get(A[i])+1);
+        //     }
+        //      if (! map.containsKey(B[i])) {
+        //         map.put(B[i], 1);
+        //     } else {
+        //         map.put(B[i], map.get(B[i])+1);
+        //     }
+        //     int count = 0;
+        //     for (var el: map.values()) {
+        //         if (el > 1) {
+        //             count++;
+        //         }
+        //     }
+        //     ans[i] = count;
+        // }
+        // return ans;
+
+        // int n = A.length;
+        // int [] ans = new int[n];
+        // int count[] = new int[n+1];
+        // for (int i = 0; i < n; i++) {
+        //     count[A[i]] ++;
+        //     count[B[i]] ++;
+        //     int val = 0;
+        //     for (int j = 1; j <=n; j++) {
+        //         if (count[j] > 1) {
+        //             val ++;
+        //         }
+        //     }
+        //     ans[i] = val; 
+        // }
+        //   return ans;
+
+        int n = A.length;
+        int [] ans = new int[n];
+        int count[] = new int[n+1];
+        int val = 0;
+        for (int i = 0; i < n; i++) {
+           if (++ count[A[i]] == 2) {
+            val ++;
+           }
+           if (++ count[B[i]] == 2) {
+            val ++;
+           }
+           ans[i] = val;
+        }
+          return ans;
+    }
+}
