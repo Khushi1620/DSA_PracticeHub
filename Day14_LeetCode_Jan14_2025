@@ -1,0 +1,42 @@
+class Solution {
+    public int xorAllNums(int[] nums1, int[] nums2) {
+        // MEMORY LIMIT EXCEEDED
+        // int[] num = new int[nums1.length*nums2.length];
+        // int index = 0;
+        // for (int i = 0; i < nums1.length; i++) {
+        //     for (int j = 0; j < nums2.length; j++) {
+        //         num[index] = nums1[i]^nums2[j];
+        //         index ++;
+        //     }
+        // }
+        // int ans = num[0];
+        // for (int i = 1; i < num.length; i++) {
+        //     ans = ans^num[i];
+        // }
+        // return ans;
+
+        // OPTIMAL SOLUTION
+        int l1 = nums1.length; 
+        int l2 = nums2.length;
+        int ans = 0;
+        if (l1%2 == 0 && l2%2 == 0) {
+            return 0;
+        } else if (l1%2 == 0 && l2%2 != 0) {
+            for (int i = 0; i < nums1.length; i++) {
+                ans = ans^nums1[i];
+            }
+        } else if (l1%2 != 0 && l2%2 == 0) {
+            for (int i = 0; i < nums2.length; i++) {
+                ans = ans^nums2[i];
+            }
+        } else {
+            for (int i = 0; i < nums1.length; i++) {
+                ans = ans^nums1[i];
+            }
+            for (int i = 0; i < nums2.length; i++) {
+                ans = ans^nums2[i];
+            }
+        }
+        return ans;
+    }
+}
