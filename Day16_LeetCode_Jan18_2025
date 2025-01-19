@@ -1,0 +1,66 @@
+class Solution {
+
+    // make a direction array 
+    //                                  right, left,    down,  up
+    private final int[][] directions = {{0,1}, {0,-1}, {1,0}, {-1,0}};
+
+    public int minCost(int[][] grid) {
+        
+        // first I find actual grid row and column length
+        int rows = grid.length;
+        int columns = grid[0].length;
+
+        // this another matrix will give us minimum cost
+        int cost_array[][] = new int[rows][columns];
+
+        // I have initialize all values of cost by maximum value so that I can easily find minimum value by compare it
+        for (int [] row: cost_array) {
+            Arrays.fill(row, Integer.MAX_VALUE);
+        }
+
+        // make a deque
+        // 1. cost == 0 push it in front of deque to ensure that I will give priority to lower cost
+        // 2. cost == 1 push it in back of deque to ensure that I will give less priority to more cost
+        Deque<int[]> deque = new ArrayDeque<>();
+
+        // Because I have to only start from 0,0
+        deque.offerFirst(new int[] {0,0}); 
+        cost_array[0][0] = 0;
+
+        while (! deque.isEmpty()) {
+
+            // it will denote that in which cell I am working now
+            int[] current_pos = deque.pollFirst();
+            int current_row = current_pos[0];
+            int current_col = current_pos[1];
+            
+            // check for all four direction that in which direction our grid is matching
+            // 0-right, 1-left, 2-down, 3-up
+            for (int dir = 0; dir < directions.length; dir++) {
+                // make newRow and newColumn for look that after follow given direction where I will reach
+                int new_row = current_row + directions[dir][0];
+                int new_col = current_col + directions[dir][1];
+
+                // if value of grid equal to given direction+1 then cost is 0 otherwise 1
+                int cost = (grid[current_row][current_col] != (dir+1)) ? 1:0;
+
+                if (valid(new_row, new_col, rows, columns) && cost_array[current_row][current_col]+cost <  cost_array[new_row][new_col]) {
+                    cost_array[new_row][new_col] = cost_array[current_row][current_col]+cost;
+
+                   // fill in deque according to cost
+                   // 1. cost == 0 push it in front of deque to ensure that I will give priority to lower cost
+                   // 2. cost == 1 push it in back of deque to ensure that I will give less priority to more 
+                    if (cost == 1) {
+                        deque.offerLast(new int[] {new_row, new_col});
+                    } else {
+                        deque.offerFirst(new int[] {new_row, new_col});
+                    }
+                }
+            }
+        }
+        return cost_array[rows-1][columns-1];
+    }
+      private boolean valid(int row, int col, int numRows, int numCols) {
+        return row >= 0 && row < numRows && col >= 0 && col < numCols;
+    }
+}
