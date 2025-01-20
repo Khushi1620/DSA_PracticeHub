@@ -1,0 +1,48 @@
+class Solution {
+    public static boolean isValid(int x, int y, int m, int n) {
+        return x >= 0 && x < m && y >= 0 && y < n;
+    }
+    public int trapRainWater(int[][] heightMap) {
+        int row = heightMap.length;
+        int col = heightMap[0].length;
+        if (row < 3 || col < 3) {
+            return 0;
+        }
+        PriorityQueue<int[]> queue = new PriorityQueue<>((a,b)-> a[0]-b[0]);
+        boolean[][] visited = new boolean[row][col];
+        // boundry element insertion
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (i == 0 || i == row-1 || j == 0 || j == col-1) {
+                    queue.offer(new int[] {heightMap[i][j], i , j});
+                    visited[i][j] = true;
+                }
+            }
+        }
+        int level = 0;
+        int trappedWater = 0;
+        int[] direction = {-1,0,1,0,-1};
+        while (! queue.isEmpty()) {
+            int[] arr = queue.poll();
+            int height = arr[0];
+            int x = arr[1];
+            int y = arr[2];
+            level = Math.max(level, height);
+
+            for (int i = 0; i < direction.length-1; i++) {
+                int new_x = x + direction[i];
+                int new_y = y + direction[i+1];
+                
+                if (isValid(new_x, new_y, row, col) && ! visited[new_x][new_y]) {
+                    visited[new_x][new_y] = true;
+                    queue.offer(new int[] {heightMap[new_x][new_y], new_x, new_y});
+
+                    if (heightMap[new_x][new_y] < level) {
+                        trappedWater += level-heightMap[new_x][new_y];
+                    }
+                }
+            }
+        }
+        return trappedWater;
+    }
+}
