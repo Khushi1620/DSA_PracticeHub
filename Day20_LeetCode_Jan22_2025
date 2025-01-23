@@ -1,0 +1,53 @@
+class Solution {
+    // direction array:   u r d l
+           int[] dir = {-1,0,1,0,-1};
+    public static boolean isValid(int x, int y, int m, int n) {
+        return x >= 0 && x < m && y >= 0 && y < n;
+    }
+    public int[][] highestPeak(int[][] isWater) {
+        // extract row and column
+        int row = isWater.length;
+        int column = isWater[0].length;
+
+        // initialize answer array and isVisited for check if I visited that path or not
+        int[][] arr = new int[row][column];
+        boolean[][] isVisited = new boolean[row][column];
+
+        // Initialize a queue as we are using bfs traversal
+        Queue<int []> q = new LinkedList<>();
+        
+        // fill all the grid 0 where it is water level as given in question
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (isWater[i][j] == 1) {
+                    arr[i][j] = 0;
+                    isVisited[i][j] = true;
+                    q.add(new int[] {i, j});
+                }
+            }
+        }
+
+        // now using bfs traversal
+        int level = 0;
+        while (! q.isEmpty()) {
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int[] current = q.poll();
+                int x = current[0];
+                int y = current[1];
+                for (int d = 0; d < 4; d++) {
+                    int new_x = x + dir[d];
+                    int new_y = y + dir[d+1];
+
+                    if (isValid(new_x, new_y, row, column) == true && isVisited[new_x][new_y] == false) {
+                        isVisited[new_x][new_y] = true;
+                        arr[new_x][new_y] = level+1;
+                        q.add(new int[] {new_x, new_y});
+                    }
+                }
+            }
+            level ++;
+        }
+        return arr;
+    }
+}
