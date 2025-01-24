@@ -1,0 +1,72 @@
+class Solution {
+    public int countServers(int[][] grid) {
+        // int row = grid.length;
+        // int column = grid[0].length;
+        // int ans = 0;
+        // boolean [][] isVisited = new boolean[row][column];
+        // int count = 1;
+        // for (int i = 0; i < row; i++) {
+        //     for (int j = 0; j < column; j++) {
+        //         if (grid[i][j] == 1) {
+        //             grid[i][j] = count;
+        //             count ++;
+        //         }
+        //     }
+        // }
+        // HashSet<Integer> set = new HashSet<>();
+        // for (int i = 0; i < row; i++) {
+        //     int rowCount = 0;
+        //     ArrayList<Integer> list = new ArrayList<>();
+        //     for (int j = 0; j < column; j++) {
+        //         if (grid[i][j] != 0) {
+        //             rowCount ++;
+        //             list.add(grid[i][j]);
+        //         }
+        //     }
+        //     if (rowCount > 1) {
+        //        for (int k=0; k<list.size(); k++) {
+        //         set.add(list.get(k));
+        //        }
+        //     }
+        // }
+        //  for (int i = 0; i < column; i++) {
+        //     int colCount = 0;
+        //     ArrayList<Integer> list = new ArrayList<>();
+        //     for (int j = 0; j < row; j++) {
+        //         if (grid[j][i] != 0) {
+        //             colCount ++;
+        //             list.add(grid[j][i]);
+        //         }
+        //     }
+        //     if (colCount > 1) {
+        //        for (int k=0; k<list.size(); k++) {
+        //         set.add(list.get(k));
+        //        }
+        //     }
+        // }
+        // return set.size();
+        int row = grid.length;
+        int column = grid[0].length;
+        int rowArray[] = new int[row];
+        int colArray[] = new int[column];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+                if (grid[i][j] == 1) {
+                    rowArray[i] ++;
+                    colArray[j] ++;
+                }
+            }
+        }
+        int ans = 0;
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                if (grid[i][j] == 1) {
+                    if (rowArray[i] > 1 || colArray[j] > 1) {
+                        ans ++;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+}
